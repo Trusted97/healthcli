@@ -5,9 +5,11 @@ mod models;
 mod storage;
 
 #[derive(Parser)]
-#[command(name = "HealthCLI")]
-#[command(version = "1.0")]
-#[command(about = "A CLI to manage and perform health checks", long_about = "HealthCLI allows you to register, list, and execute health checks for various system components such as URLs, databases, and disk space.")]
+#[command(
+    name = "HealthCLI",
+    about = "🚑 A CLI for managing and performing health checks.",
+    long_about = "🚑 HealthCLI allows you to register, list, and execute health checks for various components such as URLs, databases, and disk space."
+)]
 struct Cli {
     #[command(subcommand)]
     command: Commands,
@@ -39,12 +41,13 @@ enum Commands {
     List,
 }
 
-fn main() {
+#[tokio::main]
+async fn main() {
     let cli = Cli::parse();
 
     match cli.command {
         Commands::Check { name, .. } => {
-            commands::check::run(name);
+            commands::check::run(name).await;
         }
         Commands::Register { name, check_type } => {
             commands::register::run(name, check_type);

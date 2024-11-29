@@ -2,7 +2,7 @@
   {
     "name": "Api Check",
     "check_type": "url",
-    "config": "https://www.canzonidisney.it"
+    "config": "https://www.immobiliare.it"
   },
   {
     "name": "Disk Check",
