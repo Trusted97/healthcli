@@ -1,26 +1,40 @@
-use crate::storage::load_health_checks;
+use crate::storage::{load_health_checks, save_health_checks};
 use reqwest::Client;
 use sqlx::postgres::PgPoolOptions;
-use std::time::{Instant, Duration};
 
-pub async fn run(name: Option<String>) {
-    let checks = load_health_checks();
+pub async fn run(name: Option<String>, remove: bool) {
+    let mut checks = load_health_checks(); // Load existing checks
     let client = Client::new();
 
-    match name {
-        Some(n) => {
-            if let Some(check) = checks.iter().find(|c| c.name == n) {
-                println!("Running check: {:?}", check.name);
-                run_check(check, &client).await;
+    if remove {
+        if let Some(n) = name {
+            // Find and remove the check by name
+            if let Some(index) = checks.iter().position(|c| c.name == n) {
+                checks.remove(index);
+                save_health_checks(&checks); // Save the updated list
+                println!("Check '{}' has been removed.", n);
             } else {
                 println!("Check '{}' not found!", n);
             }
+        } else {
+            println!("Please provide a check name to remove.");
         }
-        None => {
-            println!("Running all health checks...");
-            for check in &checks {
-                println!("Running check: {:?}", check.name);
-                run_check(check, &client).await;
+    } else {
+        match name {
+            Some(n) => {
+                if let Some(check) = checks.iter().find(|c| c.name == n) {
+                    println!("Running check: {}", check.name);
+                    run_check(check, &client).await;
+                } else {
+                    println!("Check '{}' not found!", n);
+                }
+            }
+            None => {
+                println!("Running all health checks...");
+                for check in &checks {
+                    println!("Running check: {}", check.name);
+                    run_check(check, &client).await;
+                }
             }
         }
     }
@@ -31,33 +45,13 @@ async fn run_check(check: &crate::models::health_check::HealthCheck, client: &Cl
         "url" => {
             if let Some(config) = &check.config {
                 println!("Pinging URL: {}", config);
-
-                // Record start time
-                let start_time = Instant::now();
-
-                let timeout_duration = Duration::new(5, 0);  // Timeout for 5 seconds
-                let result = client.get(config).timeout(timeout_duration).send().await;
-
-                // Calculate elapsed time
-                let elapsed_time = start_time.elapsed();
+                let result = client.get(config).send().await;
                 match result {
                     Ok(response) => {
-                        let status = response.status();
-
-                        // Log URL response status and response time
-                        println!("URL responded with status: {}", status);
-                        println!("Response time: {} ms", elapsed_time.as_millis());
-
-                        // Check if the status is in the success range (2xx)
-                        if status.is_success() {
-                            println!("✅ The URL is healthy.");
-                        } else {
-                            println!("⚠️ The URL returned an error status.");
-                        }
+                        println!("URL responded with status: {}", response.status());
                     }
                     Err(err) => {
-                        // Handle errors and different types of errors
-                        println!("❌ Failed to ping URL: {}", err);
+                        println!("Failed to ping URL: {}", err);
                     }
                 }
             } else {
@@ -67,9 +61,7 @@ async fn run_check(check: &crate::models::health_check::HealthCheck, client: &Cl
         "database" => {
             if let Some(config) = &check.config {
                 println!("Connecting to database: {}", config);
-                let pool = PgPoolOptions::new()
-                    .connect(config)
-                    .await;
+                let pool = PgPoolOptions::new().connect(config).await;
                 match pool {
                     Ok(_) => println!("Database connection successful!"),
                     Err(err) => println!("Failed to connect to database: {}", err),

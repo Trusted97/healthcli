@@ -8,10 +8,5 @@
     "name": "Disk Check",
     "check_type": "disk",
     "config": null
-  },
-  {
-    "name": "Disk Checko",
-    "check_type": "disk",
-    "config": null
   }
 ]

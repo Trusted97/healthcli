@@ -26,6 +26,10 @@ enum Commands {
         /// Type of health check to run (e.g., url, database, disk)
         #[arg(short, long, help = "Filter checks by type. Valid options: 'url', 'database', 'disk'.")]
         check_type: Option<String>,
+
+        /// Remove a health check
+        #[arg(short, long, help = "Remove the specified health check.")]
+        remove: bool,
     },
     /// Register a new health check
     Register {
@@ -46,8 +50,8 @@ async fn main() {
     let cli = Cli::parse();
 
     match cli.command {
-        Commands::Check { name, .. } => {
-            commands::check::run(name).await;
+        Commands::Check { name, remove, .. } => {
+            commands::check::run(name, remove).await;
         }
         Commands::Register { name, check_type } => {
             commands::register::run(name, check_type);
