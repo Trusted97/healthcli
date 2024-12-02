@@ -7,7 +7,6 @@ Manage and perform health checks for your system with style and simplicity!
 *   🔍 Run health checks for your system components.
 *   📝 Register new health checks tailored to your needs.
 *   📋 List all registered health checks.
-*   🎨 Beautiful and human-readable output with colors and emojis.
 *   🔧 Flexible filters by name or type.
 
 ## 🚀 Installation
@@ -42,41 +41,38 @@ healthcli check \[OPTIONS\]
 
 #### Examples:
 
-*   Run all checks:
+*   Run all checks: `healthcli check`
 
-    healthcli check
+*   Run a specific check: `healthcli check --name "Ping Google"`
 
-*   Run a specific check:
-
-    healthcli check --name "Ping Google"
-
-*   Run checks of type `url`:
-
-    healthcli check --check-type url
+*   Run checks of type `url`: `healthcli check --check-type url`
 
 
 ### 2\. Register New Health Checks (`register`)
 
 Add a new health check:
 
-healthcli register --name <NAME> --check-type <TYPE>
+``` bash
+  healthcli register --name <NAME> --check-type <TYPE>
+```
 
 #### Examples:
 
 *   Register a new URL check:
+``` bash
+  healthcli register --name "Ping Google" --check-type url
+```
 
-    healthcli register --name "Ping Google" --check-type url
+*   Register a disk space check: 
 
-*   Register a disk space check:
-
-    healthcli register --name "Check Disk Space" --check-type disk
+``` bash
+  healthcli register --name "Check Disk Space" --check-type disk
+```
 
 
 ### 3\. List All Registered Checks (`list`)
 
-Display all registered health checks:
-
-`healthcli list`
+Display all registered health checks: `healthcli list`
 
 
 ## 🤝 Contributing
