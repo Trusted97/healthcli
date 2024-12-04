@@ -20,11 +20,19 @@ enum Commands {
     /// Execute health checks
     Check {
         /// Name of the specific health check to execute (optional)
-        #[arg(short, long, help = "Specify the name of the health check to run. If not provided, all checks will run.")]
+        #[arg(
+            short,
+            long,
+            help = "Specify the name of the health check to run. If not provided, all checks will run."
+        )]
         name: Option<String>,
 
         /// Type of health check to run (e.g., url, database, disk)
-        #[arg(short, long, help = "Filter checks by type. Valid options: 'url', 'database', 'disk'.")]
+        #[arg(
+            short,
+            long,
+            help = "Filter checks by type. Valid options: 'url', 'database', 'disk'."
+        )]
         check_type: Option<String>,
 
         /// Remove a health check

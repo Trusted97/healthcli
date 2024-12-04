@@ -1,5 +1,4 @@
 use crate::models::health_check::HealthCheck;
-use serde_json;
 use std::fs;
 use std::path::Path;
 

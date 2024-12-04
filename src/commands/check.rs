@@ -70,17 +70,15 @@ async fn run_check(check: &crate::models::health_check::HealthCheck, client: &Cl
                 println!("Missing configuration for database check.");
             }
         }
-        "disk" => {
-            match sys_info::disk_info() {
-                Ok(disk) => {
-                    println!("Disk total: {} MB", disk.total / 1024);
-                    println!("Disk free: {} MB", disk.free / 1024);
-                }
-                Err(err) => {
-                    println!("Failed to get disk info: {}", err);
-                }
+        "disk" => match sys_info::disk_info() {
+            Ok(disk) => {
+                println!("Disk total: {} MB", disk.total / 1024);
+                println!("Disk free: {} MB", disk.free / 1024);
             }
-        }
+            Err(err) => {
+                println!("Failed to get disk info: {}", err);
+            }
+        },
         _ => println!("Unsupported check type: {}", check.check_type),
     }
 }
