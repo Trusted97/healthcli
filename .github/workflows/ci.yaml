@@ -22,6 +22,10 @@ jobs:
         with:
           toolchain: stable
 
+      # Setup Rust cache
+      - name: Configure cache
+        uses: Swatinem/rust-cache@v2
+
       # Build the project to generate the binary
       - name: Build project
         run: cargo build --all-features
