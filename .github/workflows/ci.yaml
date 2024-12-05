@@ -22,6 +22,10 @@ jobs:
         with:
           toolchain: stable
 
+      # Build the project to generate the binary
+      - name: Build project
+        run: cargo build --all-features
+
       # Run `cargo fmt` to check formatting
       - name: Check code formatting
         run: cargo fmt --all -- --check
