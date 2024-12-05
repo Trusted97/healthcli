@@ -15,7 +15,9 @@ fn test_register_command() {
     cmd.args(["register", "-n", "test_check", "--check-type", "url"])
         .assert()
         .success()
-        .stdout(predicates::str::contains("Health check test_check of type url registered successfully"));
+        .stdout(predicates::str::contains(
+            "Health check test_check of type url registered successfully",
+        ));
 }
 
 #[test]
@@ -56,5 +58,7 @@ fn test_check_command_remove() {
     cmd.args(["check", "--name", "test_check", "--remove"])
         .assert()
         .success()
-        .stdout(predicates::str::contains("Check test_check has been removed"));
+        .stdout(predicates::str::contains(
+            "Check test_check has been removed",
+        ));
 }
