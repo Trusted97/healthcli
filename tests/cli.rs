@@ -12,7 +12,7 @@ fn test_list_without_check_command() {
 #[test]
 fn test_register_command() {
     let mut cmd = Command::cargo_bin("HealthCLI").unwrap();
-    cmd.args(&["register", "-n", "test_check", "--check-type", "url"])
+    cmd.args(["register", "-n", "test_check", "--check-type", "url"])
         .assert()
         .success()
         .stdout(predicates::str::contains("Health check test_check of type url registered successfully"));
@@ -31,13 +31,13 @@ fn test_check_command_all() {
 fn test_check_command_specific() {
     let mut cmd = Command::cargo_bin("HealthCLI").unwrap();
 
-    cmd.args(&["register", "--name", "test_check", "--check-type", "url"])
+    cmd.args(["register", "--name", "test_check", "--check-type", "url"])
         .assert()
         .success();
 
     let mut cmd = Command::cargo_bin("HealthCLI").unwrap();
 
-    cmd.args(&["check", "--name", "test_check"])
+    cmd.args(["check", "--name", "test_check"])
         .assert()
         .success()
         .stdout(predicates::str::contains("Running check: test_check"));
@@ -47,13 +47,13 @@ fn test_check_command_specific() {
 fn test_check_command_remove() {
     let mut cmd = Command::cargo_bin("HealthCLI").unwrap();
 
-    cmd.args(&["register", "-n", "test_check", "--check-type", "url"])
+    cmd.args(["register", "-n", "test_check", "--check-type", "url"])
         .assert()
         .success();
 
     let mut cmd = Command::cargo_bin("HealthCLI").unwrap();
 
-    cmd.args(&["check", "--name", "test_check", "--remove"])
+    cmd.args(["check", "--name", "test_check", "--remove"])
         .assert()
         .success()
         .stdout(predicates::str::contains("Check test_check has been removed"));
