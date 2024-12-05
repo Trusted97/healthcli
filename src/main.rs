@@ -1,4 +1,5 @@
 use clap::{Parser, Subcommand};
+use human_panic::setup_panic;
 
 mod commands;
 mod models;
@@ -55,6 +56,7 @@ enum Commands {
 
 #[tokio::main]
 async fn main() {
+    setup_panic!();
     let cli = Cli::parse();
 
     match cli.command {
