@@ -13,15 +13,15 @@ Manage and perform health checks for your system with style and simplicity!
 
 1.  Clone the repository:
 
-    git clone https://github.com/Trusted97/healthcli.git
+    `git clone https://github.com/Trusted97/healthcli.git`
 
 2.  Build the project:
 
-    cargo build --release
+    `cargo build --release`
 
 3.  Run the binary:
 
-    ./target/release/healthcli
+    `./target/release/healthcli`
 
 
 ### 📖 Usage
