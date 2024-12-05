@@ -2,7 +2,7 @@ use assert_cmd::Command;
 
 #[test]
 fn test_list_without_check_command() {
-    let mut cmd = Command::cargo_bin("HealthCLI").unwrap();
+    let mut cmd = Command::cargo_bin("healthcli").unwrap();
     cmd.arg("list")
         .assert()
         .success()
@@ -11,7 +11,7 @@ fn test_list_without_check_command() {
 
 #[test]
 fn test_register_command() {
-    let mut cmd = Command::cargo_bin("HealthCLI").unwrap();
+    let mut cmd = Command::cargo_bin("healthcli").unwrap();
     cmd.args(["register", "-n", "test_check", "--check-type", "url"])
         .assert()
         .success()
@@ -22,7 +22,7 @@ fn test_register_command() {
 
 #[test]
 fn test_check_command_all() {
-    let mut cmd = Command::cargo_bin("HealthCLI").unwrap();
+    let mut cmd = Command::cargo_bin("healthcli").unwrap();
     cmd.arg("check")
         .assert()
         .success()
@@ -31,13 +31,13 @@ fn test_check_command_all() {
 
 #[test]
 fn test_check_command_specific() {
-    let mut cmd = Command::cargo_bin("HealthCLI").unwrap();
+    let mut cmd = Command::cargo_bin("healthcli").unwrap();
 
     cmd.args(["register", "--name", "test_check", "--check-type", "url"])
         .assert()
         .success();
 
-    let mut cmd = Command::cargo_bin("HealthCLI").unwrap();
+    let mut cmd = Command::cargo_bin("healthcli").unwrap();
 
     cmd.args(["check", "--name", "test_check"])
         .assert()
@@ -47,13 +47,13 @@ fn test_check_command_specific() {
 
 #[test]
 fn test_check_command_remove() {
-    let mut cmd = Command::cargo_bin("HealthCLI").unwrap();
+    let mut cmd = Command::cargo_bin("healthcli").unwrap();
 
     cmd.args(["register", "-n", "test_check", "--check-type", "url"])
         .assert()
         .success();
 
-    let mut cmd = Command::cargo_bin("HealthCLI").unwrap();
+    let mut cmd = Command::cargo_bin("healthcli").unwrap();
 
     cmd.args(["check", "--name", "test_check", "--remove"])
         .assert()
