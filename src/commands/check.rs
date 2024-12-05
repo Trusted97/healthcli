@@ -12,9 +12,9 @@ pub async fn run(name: Option<String>, remove: bool) {
             if let Some(index) = checks.iter().position(|c| c.name == n) {
                 checks.remove(index);
                 save_health_checks(&checks); // Save the updated list
-                println!("Check '{}' has been removed.", n);
+                println!("Check {n} has been removed.");
             } else {
-                println!("Check '{}' not found!", n);
+                println!("Check {} not found!", n);
             }
         } else {
             println!("Please provide a check name to remove.");
